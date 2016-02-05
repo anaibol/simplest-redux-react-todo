@@ -1,17 +1,23 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import {createStore, bindActionCreators} from 'redux'
-import {connect, Provider} from 'react-redux'
+import { createStore, bindActionCreators } from 'redux'
+import { connect, Provider } from 'react-redux'
 
 const ADD_TODO = 'ADD_TODO'
 const REMOVE_TODO = 'REMOVE_TODO'
 
 const TodoActions = {
   addTodo(text) {
-    return {type: ADD_TODO, text}
+    return {
+      type: ADD_TODO,
+      text
+    }
   },
   removeTodo(id) {
-    return {type: REMOVE_TODO, id}
+    return {
+      type: REMOVE_TODO,
+      id
+    }
   }
 }
 
@@ -39,31 +45,40 @@ const initialState = {
 // @connect(state => ({todos: state.todos})) NOT COMPATIBLE WITH BABEL 6 YET
 class Todo extends Component {
 
-  onAddTodo(e) {
+  onAddTodo = (e) => {
     const text = e.target.value.trim()
     if (!text || e.keyCode !== 13) return
     this.props.actions.addTodo(text)
     e.target.value = ''
-  }
+  };
 
-  onRemoveTodo(id) {
-    this.props.actions.removeTodo(id)
-  }
+  onButtonClick = () => {
+    this.props.actions.addTodo(this.refs.input.value)
+    this.refs.input.value = ''
+  };
 
   render() {
+    const { todos } = this.props
+    const { removeTodo } = this.props.actions
+
     return (
       <div>
         <ul>
-          {this.props.todos.map((todo, i) => <li key={i}>{todo}<button onClick={this.onRemoveTodo.bind(this, i)}>X</button></li>) }
+          {todos.map((todo, i) =>
+            <li key={i}>{todo}
+              <button onClick={removeTodo.bind(this, i)}>X</button>
+            </li>
+          )}
         </ul>
-        <input onKeyDown={::this.onAddTodo} placeholder="Input text" />
+        <input ref="input" onKeyDown={this.onAddTodo} placeholder="Input text" />
+        <button onClick={this.onButtonClick}>Add todo</button>
       </div>
     )
   }
 }
 
 const TodoApp = connect(
-  state => (state), 
+  state => (state),
   dispatch => ({actions: bindActionCreators(TodoActions, dispatch)})
 )(Todo)
 
