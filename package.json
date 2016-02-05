@@ -1,11 +1,9 @@
 {
-  "name": "yoh",
+  "name": "simplest-redux-react-todo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js  --recursive",
-    "test:watch": "npm run test -- --watch",
     "start": "webpack-dev-server --progress --colors --watch --hot --inline"
   },
   "keywords": [],
@@ -30,7 +28,7 @@
   "dependencies": {
     "immutable": "^3.7.5",
     "react": "^0.14.7",
-    "react-dom": "^0.14.3",
+    "react-dom": "^0.14.7",
     "react-redux": "^4.3.0",
     "redux": "^3.2.1"
   }
