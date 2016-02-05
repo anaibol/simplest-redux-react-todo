@@ -21,7 +21,11 @@ const TodoActions = {
   }
 }
 
-const todoReducer = (state, action) => {
+const initialState = {
+  todos: ['make a sandwich', 'kiss a grenouille']
+}
+
+const todoReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TODO:
       return {
@@ -38,9 +42,6 @@ const todoReducer = (state, action) => {
   }
 }
 
-const initialState = {
-  todos: ['make a sandwich', 'kiss a grenouille']
-}
 
 // @connect(state => ({todos: state.todos})) NOT COMPATIBLE WITH BABEL 6 YET
 class Todo extends Component {
@@ -82,7 +83,7 @@ const TodoApp = connect(
   dispatch => ({actions: bindActionCreators(TodoActions, dispatch)})
 )(Todo)
 
-const store = createStore(todoReducer, initialState)
+const store = createStore(todoReducer)
 
 ReactDOM.render(
   <Provider store={store}>
